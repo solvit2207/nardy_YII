@@ -1,0 +1,12 @@
+{
+    "name": "solvit2207/nardy_YII",
+    "description": "smart",
+    "authors": [
+        {
+            "name": "solvit",
+            "email": "solvit@bk.ru"
+        }
+    ],
+    "require": {},
+	"autoload":{}
+}
