@@ -3,7 +3,7 @@
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
-
+<!--
     <div class="jumbotron">
         <h1>Congratulations!</h1>
 
@@ -11,9 +11,12 @@ $this->title = 'My Yii Application';
 
         <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
     </div>
-
+-->
     <div class="body-content">
-
+	<p><a class="btn btn-default" href="/solvit/nardy_YII/basic/web/index.php?r=experiment/all">Просмотр проведенных экспериментов</a></p>
+	<p><a class="btn btn-default" href="/solvit/nardy_YII/basic/web/index.php?r=results/index">Просмотр результатов проведенных экспериментов</a></p>
+	<p><a class="btn btn-default" href="/solvit/nardy_YII/basic/web/index.php?r=experiment/entry">Провести новый эксперимент</a></p>
+<!--
         <div class="row">
             <div class="col-lg-4">
                 <h2>Heading</h2>
@@ -46,6 +49,6 @@ $this->title = 'My Yii Application';
                 <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
             </div>
         </div>
-
+-->
     </div>
 </div>
