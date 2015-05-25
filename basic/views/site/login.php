@@ -27,6 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'password')->passwordInput() ?>
 
+	<?= $form->field($model, 'confirmPassword')->passwordInput() ?>
+	
+	<?= $form->field($model, 'email') ?>
+	
     <?= $form->field($model, 'rememberMe', [
         'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
     ])->checkbox() ?>

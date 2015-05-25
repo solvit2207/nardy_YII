@@ -10,8 +10,7 @@ class EntryForm extends Model{
 	
 	public function rules(){
 		return[
-			[['name','time','bones_num','throws'],'required'],
-			['name','name'],		
+			[['name','time','bones_num','throws'],'required'],		
 		];
 	}
 }

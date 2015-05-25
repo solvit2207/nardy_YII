@@ -12,6 +12,8 @@ class LoginForm extends Model
 {
     public $username;
     public $password;
+	public $confirmPassword;
+	public $email;
     public $rememberMe = true;
 
     private $_user = false;
@@ -24,11 +26,13 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['username', 'password','confirmPassword','email'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+			['confirmPassword', 'validatePassword'],
+			['email', 'email'],
         ];
     }
 
@@ -49,7 +53,13 @@ class LoginForm extends Model
             }
         }
     }
-
+				public function confirmPassword($attribute, $params)
+				{
+						if ($user->confirmPassword != $user->validatePassword($this->password)) {
+							$this->addError($attribute, 'Incorrect username or password.');
+						}
+				}
+				
     /**
      * Logs in a user using the provided username and password.
      * @return boolean whether the user is logged in successfully
