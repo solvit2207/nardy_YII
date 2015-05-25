@@ -7,8 +7,9 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
+use app\models\CreateForm;
 use app\models\ContactForm;
-use app\models\EntryForm;
+use app\models\User;
 class SiteController extends Controller
 {
     public function behaviors()
@@ -67,7 +68,48 @@ class SiteController extends Controller
             ]);
         }
     }
+//////////////////			
+			
+	public function actionCreate()
+	{
+	////////////////////////////////////
+	$model = new User;
+		if ($model->load(Yii::$app->request->post()) ){
+	
+			$model->username=$_POST['User']['username'];
+			$model->password=$_POST['User']['password'];
+			//$model->confirmPassword=$_POST['User']['confirmPassword'];
+			$model->email=$_POST['User']['email'];
+			$model->authKey=$_POST['User']['username'].'key';
+			$model->accessToken=$_POST['User']['username'].'token';
+			
+			//if($model->validate()){
+			$model->password=Yii::$app->getSecurity()->generatePasswordHash($model->password);
+			$model->save();
+			//return "SAVE OK!";
+			//} else return $model->password;
+			return $this->goHome();
+			
+		} else {
+			return $this->render('create',['model' => $model]);
+		}
+	
+	
+	//////////////////////////////////////////
+     /*   if (!\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
 
+        $model = new CreateForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }*/
+    }
+////////////////////////////
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -93,12 +135,5 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-	public function actionEntry(){
-		$model=new EntryForm;
-			if($model->load(Yii::$app->request->post())){
-			return $this->render('entry-confirm',['model'=>$model]);
-		} else {
-		return $this->render('entry',['model'=>$model]);
-		}
-	}
+
 }

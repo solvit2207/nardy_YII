@@ -2,10 +2,34 @@
 namespace app\controllers;
 use yii\web\Controller;
 use yii\data\Pagination;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use app\models\Experiment;
 use app\models\EntryForm;
 use app\models\Results;
 class ExperimentController extends Controller{
+	  public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['logout'],
+                'rules' => [
+                    [
+                        //'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
 	public function actionAll(){
 		$query=Experiment::find();
 		$pagination = new Pagination([
@@ -17,9 +41,9 @@ class ExperimentController extends Controller{
 	}
 	public function actionEntry(){
 		$exp = new Experiment;
-		$exp -> name='Dima';
-		$exp -> time='20:48';
-		$exp -> date='15.07.12';
+		$exp -> name='Oleg';
+		$exp -> time='9:48';
+		$exp -> date='25.05.15';
 		$exp -> bones_num='2';
 		$exp -> throws='36000';
 		$exp->save();

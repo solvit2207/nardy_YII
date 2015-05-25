@@ -2,11 +2,27 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+public $confirmPassword;
+	public function rules()
+    {
+        return [
+            // username and password are both required
+            [['username', 'password','confirmPassword','email'], 'required'],
+            // rememberMe must be a boolean value
+            //['rememberMe', 'boolean'],
+            // password is validated by validatePassword()
+            //['password', 'validatePassword'],
+			//['confirmPassword', 'confirm'],
+			['email', 'email'],
+        ];
+    }
+/*
     public $id;
     public $username;
     public $password;
+	public $email;
     public $authKey;
     public $accessToken;
 
@@ -32,7 +48,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return static::findOne($id);
     }
 
     /**
@@ -40,13 +56,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::findOne(['access_token'=>$token]);
     }
 
     /**
@@ -57,13 +67,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::findOne(['username'=>$username]);
     }
 
     /**
@@ -98,6 +102,13 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return \Yii::$app->getSecurity()->validatePassword($password,$this->password);
     }
+	
+	public function confirm($attribute, $params)
+	{
+		if ($this->confirmPassword != $this->password) {
+			$this->addError($attribute, 'Incorrect username or password.');
+		} else return true;
+	}
 }
