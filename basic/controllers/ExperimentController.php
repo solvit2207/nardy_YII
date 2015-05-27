@@ -41,9 +41,9 @@ class ExperimentController extends Controller{
 	}
 	public function actionEntry(){
 		$exp = new Experiment;
-		$exp -> name='Oleg';
-		$exp -> time='9:48';
-		$exp -> date='25.05.15';
+		$exp -> name='Ivan';
+		$exp -> time='12:48';
+		$exp -> date='27.05.15';
 		$exp -> bones_num='2';
 		$exp -> throws='36000';
 		$exp->save();

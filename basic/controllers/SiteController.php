@@ -6,6 +6,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use app\models\RegistrationForm;
 use app\models\LoginForm;
 use app\models\CreateForm;
 use app\models\ContactForm;
@@ -69,47 +70,27 @@ class SiteController extends Controller
         }
     }
 //////////////////			
-			
-	public function actionCreate()
-	{
-	////////////////////////////////////
-	$model = new User;
-		if ($model->load(Yii::$app->request->post()) ){
-	
-			$model->username=$_POST['User']['username'];
-			$model->password=$_POST['User']['password'];
-			//$model->confirmPassword=$_POST['User']['confirmPassword'];
-			$model->email=$_POST['User']['email'];
-			$model->authKey=$_POST['User']['username'].'key';
-			$model->accessToken=$_POST['User']['username'].'token';
-			
-			//if($model->validate()){
-			$model->password=Yii::$app->getSecurity()->generatePasswordHash($model->password);
-			$model->save();
-			//return "SAVE OK!";
-			//} else return $model->password;
-			return $this->goHome();
-			
-		} else {
-			return $this->render('create',['model' => $model]);
-		}
-	
-	
-	//////////////////////////////////////////
-     /*   if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+			public function actionRegistration()
+    {
+        $model = new RegistrationForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+				/*///////
+				Yii::$app->mailer->compose()
+                ->setTo($user->email)
+                ->setFrom('solvit@bk.ru')
+                ->setSubject('Registration')
+                ->setTextBody('Your-name: '.$user->username.'<br>Your-password: '.$user->password)
+                ->send();
+				*/////////////
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
         }
-
-        $model = new CreateForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }*/
+        return $this->render('registration', ['model' => $model,]);
     }
-////////////////////////////
+
     public function actionLogout()
     {
         Yii::$app->user->logout();

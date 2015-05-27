@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\models\RegistrationForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -26,10 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model, 'username') ?>
 
     <?= $form->field($model, 'password')->passwordInput() ?>
-
-	<?//= $form->field($model, 'confirmPassword')->passwordInput() ?>
-	
-	<?//= $form->field($model, 'email') ?>
 	
     <?= $form->field($model, 'rememberMe', [
         'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
@@ -39,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-offset-1 col-lg-11">
             <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
 			
-			<a class="btn btn-primar" href="/solvit/nardy_YII/basic/web/index.php?r=site/create">Register</a>
+			<a class="btn btn-primar" href="/solvit/nardy_YII/basic/web/index.php?r=site/registration">Register</a>
         </div>
     </div>
     
